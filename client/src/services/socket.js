@@ -132,6 +132,11 @@ class SocketService {
   getConnectionStatus() {
     return this.isConnected;
   }
+
+  // Get socket instance
+  getSocket() {
+    return this.socket;
+  }
 }
 
 // Create and export a singleton instance

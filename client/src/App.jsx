@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
+import ConnectionStatus from './components/ConnectionStatus'
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -56,6 +57,7 @@ const App = () => {
             </ProtectedRoute>
           }/>
         </Routes>
+        <ConnectionStatus />
       </div>
     </AuthProvider>
   )
