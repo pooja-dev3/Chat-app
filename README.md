@@ -165,20 +165,19 @@ docker-compose up --build
 
 ---
 
-## 🌿 Git Branching Strategy
+## 🌿 Git Branching & Deployment Strategy
 
-We follow a simple structured branching workflow:
+We follow a clean 3-tier branching and deployment workflow:
 
 ```text
-feature/*  ───(Pull Request / Merge)───>  develop  ───>  main  ───>  production
+feature/*  ───(Merge)───>  develop (Development Deployment)  ───(Merge)───>  main (Production Deployment)
 ```
 
-### Branch Hierarchy
+### Branch & Environment Mapping
 
-- **`feature/*`**: Active development of individual features/fixes (e.g., `feature/chat-ui`, `feature/socket-fix`, `feature/auth`).
-- **`develop`**: Primary integration branch for completed feature branches.
-- **`main`**: Pre-release / staging branch containing verified code.
-- **`production`**: Live production code.
+- **`feature/*`**: Short-lived feature/fix branches (e.g. `feature/chat-ui`, `feature/socket-fix`, `feature/auth`).
+- **`develop`**: Integration branch 🚀 **Deploys to Development Environment**.
+- **`main`**: Production branch 🔒 **Deploys to Production Environment**.
 
 ---
 
@@ -194,28 +193,22 @@ git checkout -b feature/chat-ui
 #### 2. Commit Changes & Push Feature Branch
 ```bash
 git add .
-git commit -m "feat: implement chat user interface component"
+git commit -m "feat: add chat UI components"
 git push -u origin feature/chat-ui
 ```
 
-#### 3. Merge Feature Branch into `develop`
+#### 3. Merge Feature Branch into `develop` (Triggers Development Deployment)
 ```bash
 git checkout develop
 git merge feature/chat-ui
 git push origin develop
 ```
 
-#### 4. Promote from `develop` → `main` → `production`
+#### 4. Promote `develop` to `main` (Triggers Production Deployment)
 ```bash
-# Merge develop into main
 git checkout main
 git merge develop
 git push origin main
-
-# Merge main into production
-git checkout production
-git merge main
-git push origin production
 ```
 
 ---
