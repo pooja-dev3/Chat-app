@@ -165,6 +165,61 @@ docker-compose up --build
 
 ---
 
+## 🌿 Git Branching Strategy
+
+We follow a simple structured branching workflow:
+
+```text
+feature/*  ───(Pull Request / Merge)───>  develop  ───>  main  ───>  production
+```
+
+### Branch Hierarchy
+
+- **`feature/*`**: Active development of individual features/fixes (e.g., `feature/chat-ui`, `feature/socket-fix`, `feature/auth`).
+- **`develop`**: Primary integration branch for completed feature branches.
+- **`main`**: Pre-release / staging branch containing verified code.
+- **`production`**: Live production code.
+
+---
+
+### Step-by-Step Workflow Guide
+
+#### 1. Create a Feature Branch from `develop`
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b feature/chat-ui
+```
+
+#### 2. Commit Changes & Push Feature Branch
+```bash
+git add .
+git commit -m "feat: implement chat user interface component"
+git push -u origin feature/chat-ui
+```
+
+#### 3. Merge Feature Branch into `develop`
+```bash
+git checkout develop
+git merge feature/chat-ui
+git push origin develop
+```
+
+#### 4. Promote from `develop` → `main` → `production`
+```bash
+# Merge develop into main
+git checkout main
+git merge develop
+git push origin main
+
+# Merge main into production
+git checkout production
+git merge main
+git push origin production
+```
+
+---
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the issues page or submit pull requests.
