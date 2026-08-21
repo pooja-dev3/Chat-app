@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+config.env
+server/config.env
+
+# Build outputs
+dist/
+build/
+client/dist/
+client/build/
+
+# Uploads & User Generated Content
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Logs & Debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

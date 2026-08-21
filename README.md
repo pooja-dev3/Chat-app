@@ -36,7 +36,8 @@ A full-stack, real-time messaging application built with **React**, **Node.js**,
 ## 📁 Project Structure
 
 ```text
-Chat-app/
+chat-devdeploy/
+│
 ├── client/                 # Frontend React application
 │   ├── public/             # Static public assets
 │   ├── src/                # React source code (components, pages, context)
@@ -50,7 +51,16 @@ Chat-app/
 │   ├── index.js            # Server entry point & Socket.io initialization
 │   └── package.json        # Backend dependencies & scripts
 │
-└── README.md               # Project documentation
+├── docker/                 # Containerization configuration
+│   ├── Dockerfile.client   # Dockerfile for client frontend
+│   └── Dockerfile.server   # Dockerfile for server backend
+│
+├── .github/                # GitHub Actions & CI/CD workflows
+│   └── workflows/          # CI workflow definitions (ci.yml)
+│
+├── .gitignore              # Git ignore rules
+├── README.md               # Project documentation
+└── docker-compose.yml      # Multi-container Docker compose setup
 ```
 
 ---
@@ -124,7 +134,17 @@ cd Chat-app
    ```bash
    npm run dev
    ```
-   The frontend application will start on `http://localhost:5173`.
+### 4. Running with Docker Compose 🐳
+
+Alternatively, you can run the entire stack (MongoDB, Backend, Frontend) with a single Docker Compose command:
+
+```bash
+docker-compose up --build
+```
+
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:5000`
+- MongoDB: `mongodb://localhost:27017/chatapp`
 
 ---
 

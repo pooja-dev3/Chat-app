@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # MongoDB Database Service
+  mongo:
+    image: mongo:7
+    container_name: chatapp-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Backend Server Service
+  server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.server
+    container_name: chatapp-server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongo:27017/chatapp
+      - JWT_SECRET=your_jwt_secret_key_here
+      - JWT_EXPIRES_IN=7d
+      - NODE_ENV=production
+    depends_on:
+      - mongo
+
+  # Frontend Client Service
+  client:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.client
+    container_name: chatapp-client
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+
+volumes:
+  mongo_data:
