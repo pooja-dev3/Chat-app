@@ -46,6 +46,20 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static files for uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Health check endpoint
+app.get(['/health', '/api/health'], (req, res) => {
+  const dbStates = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const dbState = dbStates[mongoose.connection.readyState] || 'unknown';
+
+  res.status(200).json({
+    status: 'UP',
+    timestamp: new Date().toISOString(),
+    uptime: `${Math.floor(process.uptime())}s`,
+    database: dbState,
+    service: 'QuickChat Backend API'
+  });
+});
+
 // Test endpoint to check if uploads directory is accessible
 app.get('/test-uploads', (req, res) => {
   const fs = require('fs');

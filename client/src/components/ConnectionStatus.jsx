@@ -41,7 +41,7 @@ const ConnectionStatus = () => {
         
         try {
           // Try to fetch a test endpoint to check if server is reachable
-          const response = await fetch(`${API_BASE_URL.replace('/api', '')}/test-uploads`, {
+          const response = await fetch(`${API_BASE_URL.replace('/api', '')}/health`, {
             method: 'GET',
             signal: controller.signal
           });

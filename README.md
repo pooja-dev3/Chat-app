@@ -224,6 +224,7 @@ docker push poojadev3/chat_client:latest
 
 | Method | Endpoint | Access | Description |
 | :--- | :--- | :---: | :--- |
+| `GET` | `/health` | Public | Service health check, uptime, & DB status |
 | `POST` | `/api/auth/register` | Public | Register a new user account |
 | `POST` | `/api/auth/login` | Public | Authenticate user & receive JWT token |
 | `GET` | `/api/auth/me` | Private | Fetch authenticated user profile |
