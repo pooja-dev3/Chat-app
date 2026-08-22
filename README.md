@@ -137,6 +137,10 @@ Chat-app/
 │   ├── Dockerfile.client       # Multi-stage Nginx client Dockerfile
 │   └── Dockerfile.server       # Lightweight Node.js server Dockerfile
 │
+├── monitoring/                 # Monitoring & metrics configuration
+│   └── prometheus/
+│       └── prometheus.yml      # Prometheus scraper configuration
+│
 ├── .github/workflows/          # GitHub Actions CI workflow (ci.yml)
 ├── docker-compose.yml          # Multi-container local orchestration
 └── README.md                   # Project documentation
@@ -168,6 +172,7 @@ docker-compose up --build
 
 - **Frontend Client**: `http://localhost:5173`
 - **Backend API**: `http://localhost:5000`
+- **Prometheus Dashboard**: `http://localhost:9090`
 - **MongoDB**: `mongodb://localhost:27017/chatapp`
 
 ---
