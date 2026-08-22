@@ -17,16 +17,23 @@ class ApiService {
     localStorage.removeItem('token');
   }
 
+  // Get current token
+  getToken() {
+    if (!this.token) {
+      this.token = localStorage.getItem('token');
+    }
+    return this.token;
+  }
+
   // Get headers with auth token
   getHeaders() {
     const headers = {
       'Content-Type': 'application/json',
     };
     
-    if (this.token) {
-      headers.Authorization = `Bearer ${this.token}`;
-    } else {
-      console.warn('No token available for API request');
+    const token = this.getToken();
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
     }
     
     return headers;
