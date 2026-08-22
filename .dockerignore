@@ -18,6 +18,7 @@ client/build
 # Environment files & secret logs
 .env
 .env.*
+!client/.env.production
 config.env
 server/config.env
 *.log

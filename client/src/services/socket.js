@@ -16,9 +16,7 @@ class SocketService {
 
     console.log('Connecting to socket server with token:', token ? 'Token present' : 'No token');
 
-    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (import.meta.env.MODE === 'production' 
-      ? 'https://chat-server-latest-0axs.onrender.com' 
-      : 'http://localhost:5000');
+    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
 
     this.socket = io(SOCKET_URL, {
       auth: {
