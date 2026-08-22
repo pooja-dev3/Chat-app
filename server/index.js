@@ -9,16 +9,27 @@ require('dotenv').config({ path: './config.env' });
 const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = process.env.CLIENT_ORIGIN 
-  ? process.env.CLIENT_ORIGIN.split(',').map(s => s.trim())
-  : (process.env.NODE_ENV === 'production' 
-      ? true 
-      : ["http://localhost:5173", "http://localhost:3000"]);
+const corsOriginDelegate = (origin, callback) => {
+  if (!origin) return callback(null, true);
+  if (process.env.CLIENT_ORIGIN) {
+    const list = process.env.CLIENT_ORIGIN.split(',').map(s => s.trim());
+    if (list.includes(origin)) return callback(null, origin);
+  }
+  if (
+    origin.endsWith('.onrender.com') ||
+    origin.endsWith('.vercel.app') ||
+    origin.includes('localhost') ||
+    process.env.NODE_ENV === 'production'
+  ) {
+    return callback(null, origin);
+  }
+  return callback(null, origin);
+};
 
 // Socket.io setup
 const io = socketIo(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: corsOriginDelegate,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -26,7 +37,7 @@ const io = socketIo(server, {
 
 // Middleware
 app.use(cors({
-  origin: allowedOrigins,
+  origin: corsOriginDelegate,
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
