@@ -30,9 +30,9 @@ const ConnectionStatus = () => {
     // Check API connection
     const checkApiConnection = async () => {
       try {
-        const API_BASE_URL = import.meta.env.MODE === 'production' 
-          ? 'https://your-railway-backend-url.railway.app/api' 
-          : 'http://localhost:5000/api';
+        const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' 
+          ? 'https://chat-server-latest-0axs.onrender.com/api' 
+          : 'http://localhost:5000/api');
         
         // Try a simple health check or test endpoint
         const startTime = Date.now();

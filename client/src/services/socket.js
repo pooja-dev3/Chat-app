@@ -16,9 +16,11 @@ class SocketService {
 
     console.log('Connecting to socket server with token:', token ? 'Token present' : 'No token');
 
-    this.socket = io(process.env.NODE_ENV === 'production' 
-      ? 'https://your-railway-backend-url.railway.app' 
-      : 'http://localhost:5000', {
+    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (import.meta.env.MODE === 'production' 
+      ? 'https://chat-server-latest-0axs.onrender.com' 
+      : 'http://localhost:5000');
+
+    this.socket = io(SOCKET_URL, {
       auth: {
         token: token
       },

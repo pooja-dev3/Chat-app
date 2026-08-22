@@ -9,21 +9,24 @@ require('dotenv').config({ path: './config.env' });
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = process.env.CLIENT_ORIGIN 
+  ? process.env.CLIENT_ORIGIN.split(',').map(s => s.trim())
+  : (process.env.NODE_ENV === 'production' 
+      ? true 
+      : ["http://localhost:5173", "http://localhost:3000"]);
+
 // Socket.io setup
 const io = socketIo(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? ["https://chat-app-s-nine.vercel.app"]
-      : ["http://localhost:5173", "http://localhost:3000"],
-    methods: ["GET", "POST"]
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
 // Middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ["https://chat-app-s-nine.vercel.app"]
-    : ["http://localhost:5173", "http://localhost:3000"],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -50,10 +53,7 @@ app.get('/test-uploads', (req, res) => {
 });
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/chatapp', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/chatapp')
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 

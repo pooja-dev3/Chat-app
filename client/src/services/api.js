@@ -1,6 +1,6 @@
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-railway-backend-url.railway.app/api' 
-  : 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' 
+  ? 'https://chat-server-latest-0axs.onrender.com/api' 
+  : 'http://localhost:5000/api');
 
 class ApiService {
   constructor() {
