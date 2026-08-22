@@ -43,6 +43,45 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Prometheus Metrics Setup
+const promClient = require('prom-client');
+const register = new promClient.Registry();
+
+// Collect Node.js default process and system metrics
+promClient.collectDefaultMetrics({ register });
+
+// Custom HTTP request duration histogram metric
+const httpRequestDurationMicroseconds = new promClient.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'status_code'],
+  buckets: [0.05, 0.1, 0.3, 0.5, 1, 2, 5]
+});
+register.registerMetric(httpRequestDurationMicroseconds);
+
+// Middleware to track HTTP request metrics
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = (Date.now() - start) / 1000;
+    const routePath = req.route ? (Array.isArray(req.route.path) ? req.route.path.join('|') : req.route.path) : req.path;
+    httpRequestDurationMicroseconds
+      .labels(req.method, routePath, res.statusCode)
+      .observe(duration);
+  });
+  next();
+});
+
+// Prometheus metrics scraping endpoint
+app.get(['/metrics', '/api/metrics'], async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  } catch (err) {
+    res.status(500).end(err.message || 'Metrics processing error');
+  }
+});
+
 // Static files for uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
