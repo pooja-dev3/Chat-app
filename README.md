@@ -7,6 +7,7 @@
 [![Socket.io](https://img.shields.io/badge/Socket.io-4-010101?logo=socketdotio)](https://socket.io/)
 [![Docker](https://img.shields.io/badge/Docker-Hub-2496ED?logo=docker)](https://hub.docker.com/)
 [![Render](https://img.shields.io/badge/Render-Deployed-46E3B7?logo=render)](https://render.com/)
+[![Grafana](https://img.shields.io/badge/Grafana-Monitoring-F46800?logo=grafana)](https://grafana.com/)
 [![License](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
 
 A full-stack, enterprise-grade real-time messaging platform engineered with **React 19**, **Node.js/Express**, **Socket.io WebSockets**, **MongoDB**, and **Docker**.
@@ -138,8 +139,12 @@ Chat-app/
 │   └── Dockerfile.server       # Lightweight Node.js server Dockerfile
 │
 ├── monitoring/                 # Monitoring & metrics configuration
-│   └── prometheus/
-│       └── prometheus.yml      # Prometheus scraper configuration
+│   ├── prometheus/
+│   │   └── prometheus.yml      # Prometheus scraper configuration
+│   └── grafana/                # Grafana dashboards & datasources
+│       └── provisioning/
+│           ├── datasources/    # Automated Prometheus datasource
+│           └── dashboards/     # Automated Node.js metrics dashboard
 │
 ├── .github/workflows/          # GitHub Actions CI workflow (ci.yml)
 ├── docker-compose.yml          # Multi-container local orchestration
@@ -159,7 +164,7 @@ Chat-app/
 
 ### Option A: Local Run with Docker Compose (Recommended)
 
-Run the entire application stack (MongoDB, Backend Server, Nginx Client) with one command:
+Run the entire application stack (MongoDB, Backend Server, Nginx Client, Prometheus, Grafana) with one command:
 
 ```bash
 # 1. Clone repository
@@ -172,6 +177,7 @@ docker-compose up --build
 
 - **Frontend Client**: `http://localhost:5173`
 - **Backend API**: `http://localhost:5000`
+- **Grafana Dashboards**: `http://localhost:3000` *(Login: `admin` / `admin`)*
 - **Prometheus Dashboard**: `http://localhost:9090`
 - **MongoDB**: `mongodb://localhost:27017/chatapp`
 
