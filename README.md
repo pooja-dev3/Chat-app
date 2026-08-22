@@ -222,3 +222,6 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 ## 📜 License
 
 This project is licensed under the **ISC License**.
+
+## CI/CD
+Automated CI/CD pipeline using GitHub Actions, Docker Hub and Render.
